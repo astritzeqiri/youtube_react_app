@@ -42,7 +42,7 @@ export default {
                 }
             })
             .catch(error => {
-                reject(error.response.data);
+                reject(error.response);
             });
         });
 	},
@@ -60,7 +60,25 @@ export default {
                 resolve(response.data.items[0].statistics);
             })
             .catch(error => {
-                reject(error.response.data);
+                reject(error.response);
+            });
+        });
+	},
+
+	getChannelData (id) {
+        return new Promise((resolve, reject) => {
+            axios.get(config.BASE_URL + "/channels", {
+				params: {
+					part: 'snippet,contentDetails,statistics',
+					id: id,
+					key: config.API_KEY
+				}
+			})
+            .then(response => {
+                resolve(response.data.items[0]);
+            })
+            .catch(error => {
+                reject(error.response);
             });
         });
 	}

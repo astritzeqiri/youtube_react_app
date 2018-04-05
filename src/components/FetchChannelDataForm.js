@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 
-import Firebase from '../services/Firebase'
 import YouTubeApi from '../services/YouTubeApi';
+import { setChannelData } from '../services/Database'
 
-export default class FetchCountForm extends Component {
+export default class FetchChannelDataForm extends Component {
   
-    constructor () {
-        super();
+    constructor (props) {
+        super(props);
 
         this.state = {
-            username: 'asdasd',
+            username: '',
             error: ''
         }
 
         this.usernameChange = this.usernameChange.bind(this);
-        this.fetchCount = this.fetchCount.bind(this);
+        this.fetch = this.fetch.bind(this);
     }
 
-    fetchCount (event) {
+    fetch (event) {
         event.preventDefault();
 
         if (! this.state.username) {
@@ -26,21 +26,24 @@ export default class FetchCountForm extends Component {
                     msg: 'Please write a username to search for'
                 }
             })
-            // eventBus.$emit('fetch-count', undefined);
             return;
         }
 
-        this.props.onFetchCount(this.state.username)
-
         YouTubeApi.getIdFromUsername(this.state.username)
         .then(id => {
-            // eventBus.$emit('fetch-count', id);
+            this.props.onNewChannelId(id)
+
+           	YouTubeApi.getChannelData(id).then(data => {
+	            setChannelData(this.state.username, {
+				  	channelId: data.id,
+				  	channelName: this.state.username,
+				  	channelTitle: data.snippet.title
+				})
+           	})
             
             this.clearError();
         })
         .catch(error => {
-            // eventBus.$emit('fetch-count', undefined);
-            
             this.setState({
                 error
             })
@@ -56,7 +59,7 @@ export default class FetchCountForm extends Component {
     render() {
         return (
             <div className="container">
-                <form onSubmit={this.fetchCount}>
+                <form onSubmit={this.fetch}>
                     {this.state.error && this.state.error.msg}
                     <div className="input-group">
                         <span className="input-group-addon" id="basic-addon1">@</span>
