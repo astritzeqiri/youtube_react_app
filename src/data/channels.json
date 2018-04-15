@@ -1,16 +1,4 @@
 {
-	"youtubeChannels" : {
-		"yrefined" : {
-			"channelId": null,
-			"channelName": "yrefined",
-			"channelTitle": "Yiannimize",
-			"subscribers": 0
-		},
-		"pew" : {
-			"channelId": "UCGERnPMUkIrDlNf7XMmk8Vg",
-			"channelName": "pew",
-			"channelTitle": "DONO",
-			"subscribers": 0
-		}
-	}
+    "youtubeChannels": {
+    }
 }

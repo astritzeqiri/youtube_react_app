@@ -51,8 +51,8 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(config.BASE_URL + "/channels", {
 				params: {
-					part: 'statistics',
 					id: id,
+					part: 'statistics',
 					key: config.API_KEY
 				}
 			})
@@ -69,13 +69,56 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(config.BASE_URL + "/channels", {
 				params: {
-					part: 'snippet,contentDetails,statistics',
 					id: id,
+					part: 'snippet,contentDetails,statistics',
 					key: config.API_KEY
 				}
 			})
             .then(response => {
                 resolve(response.data.items[0]);
+            })
+            .catch(error => {
+                reject(error.response);
+            });
+        });
+	},
+
+	getChannelVideos (channelId, maxResults = 8, pageToken) {
+        return new Promise((resolve, reject) => {
+            axios.get(config.BASE_URL + "/search", {
+				params: {
+					channelId,
+					maxResults,
+					pageToken,
+					part: 'snippet,id',
+					type: 'video',
+					key: config.API_KEY
+				}
+			})
+            .then(response => {
+                resolve({
+                	videos: response.data.items,
+                	nextPageToken: response.data.nextPageToken
+                });
+            })
+            .catch(error => {
+                reject(error.response);
+            });
+        });
+	},
+
+	search (search) {
+        return new Promise((resolve, reject) => {
+            axios.get(config.BASE_URL + "/search", {
+				params: {
+					q: search,
+					type: 'channel',
+					part: 'snippet',
+					key: config.API_KEY
+				}
+			})
+            .then(response => {
+                resolve(response.data.items);
             })
             .catch(error => {
                 reject(error.response);

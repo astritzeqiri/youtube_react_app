@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import YouTubeApi from '../services/YouTubeApi';
 
-export default class SubscriberCount extends Component {
+export default class RealtimeChannelData extends Component {
   
 	constructor (props) {
 		super(props);
 
 		this.state = {
 			interval: undefined,
-			intervalTime: 1000,
+			intervalTime: 2000,
 
 			statistics: {
 				viewCount: 0,
@@ -32,6 +32,10 @@ export default class SubscriberCount extends Component {
     	}
     }
  
+ 	componentWillUnmount () {
+ 		this.stopFetchingInterval()
+ 	}
+
  	startFetchingInterval () {
         this.stopFetchingInterval();
 
@@ -82,21 +86,25 @@ export default class SubscriberCount extends Component {
 			<div>
 				{
 					this.state.statistics.subscriberCount > 0 && 
-						<div className="subscriberCount">
-							<span className="subscriberCountNr">{this.state.statistics.subscriberCount}</span>
+					<div className="subscriber-count">
+						<span>Subscribers: </span>
+						
+						<div className="subscriber-count-numbers">
+							{this.state.statistics.subscriberCount.split(/(?!$)/).map(nr => {
+								return <span>{nr}</span>
+							})}
 						</div>
+					</div>
 				}
 				{
 					this.state.statistics.videoCount && 
 					this.state.statistics.viewCount && 
 					this.state.statistics.commentCount &&
 					
-					<ul>
-						<li>
-							Total videos: {this.state.statistics.videoCount}
-							Total views: {this.state.statistics.viewCount}
-							Total comments: {this.state.statistics.commentCount}
-						</li>
+					<ul className="list-group">
+						<li className="list-group">Videos: {this.state.statistics.videoCount}</li>
+						<li className="list-group">Video views: {this.state.statistics.viewCount}</li>
+						<li className="list-group">Video comments: {this.state.statistics.commentCount}</li>
 					</ul> 
 				}
 			</div>
