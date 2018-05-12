@@ -36,3 +36,15 @@
     padding: 0 7px;
 	font-size: 25px;
 }
+
+.fetch-channels-results .channel-result {
+    margin-bottom: 10px;
+}
+
+.fetch-channels-results .channel-result .media-left {
+	margin-right: 10px;
+}
+
+.fetch-channels-results .channel-result .media-body {
+    padding: 9px 0 5px;
+}

@@ -102,7 +102,7 @@ export default class FetchChannelDataForm extends Component {
 		            	<div className="row">
 				            {this.state.searchResults.map(channel => {
 				            	return (
-							        <div className="col-md-12">
+							        <div className="col-md-12 channel-result">
 							            <div className="media">
 							              <div className="media-left">
 							                <a onClick={this.saveToDb.bind(this, channel)} href="javascript:void(0);">
